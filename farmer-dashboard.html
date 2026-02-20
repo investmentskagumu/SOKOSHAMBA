@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Farmer Dashboard - Sokoshamba</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">Sokoshamba</div>
+    <nav>
+        <a href="produce-details.html">Produce Details</a>
+        <a href="orders.html">Orders</a>
+    </nav>
+</header>
+
+<section class="section">
+    <h2>My Produce</h2>
+    <div>
+        <input type="text" id="produceName" placeholder="Produce Name">
+        <input type="number" id="produceQty" placeholder="Quantity">
+        <input type="number" id="producePrice" placeholder="Price (KES)">
+        <button id="addProduceBtn">Add Produce</button>
+    </div>
+    <div id="produceList">Loading your produce...</div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.1.0/dist/supabase.min.js"></script>
+<script>
+  const SUPABASE_URL = "https://fnknhyscommezhfgnpqx.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_Nu7xh1es0Kt9Ccv6sn2KqA_ptOJZQNm";
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  async function getUser() {
+    const { data } = await supabase.auth.getUser();
+    return data.user;
+  }
+
+  async function loadProduce() {
+    const user = await getUser();
+    const { data, error } = await supabase.from('produce').select('*').eq('farmer_id', user.id);
+    if(error) console.error(error);
+    else {
+      const html = data.map(p => `<p>${p.name} – ${p.quantity}kg @ ${p.price} KES</p>`).join('');
+      document.getElementById('produceList').innerHTML = html || "No produce yet.";
+    }
+  }
+
+  document.querySelector('#addProduceBtn').onclick = async () => {
+    const name = document.querySelector('#produceName').value;
+    const qty = parseInt(document.querySelector('#produceQty').value);
+    const price = parseFloat(document.querySelector('#producePrice').value);
+    const user = await getUser();
+    await supabase.from('produce').insert([{ name, quantity: qty, price, farmer_id: user.id }]);
+    loadProduce();
+  }
+
+  loadProduce();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin - Sokoshamba</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">Sokoshamba Admin</div>
+</header>
+
+<section class="section">
+    <h2>Users</h2>
+    <div id="usersList">Loading users...</div>
+
+    <h2>Produce</h2>
+    <div id="adminProduceList">Loading produce...</div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.1.0/dist/supabase.min.js"></script>
+<script>
+  const SUPABASE_URL = "https://fnknhyscommezhfgnpqx.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_Nu7xh1es0Kt9Ccv6sn2KqA_ptOJZQNm";
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  async function loadUsers() {
+    const { data, error } = await supabase.from('users').select('*');
+    if(error) console.error(error);
+    else document.getElementById('usersList').innerHTML = data.map(u => `<p>${u.phone} – ${u.role}</p>`).join('');
+  }
+
+  async function loadProduce() {
+    const { data, error } = await supabase.from('produce').select('*, farmer_id(*)');
+    if(error) console.error(error);
+    else document.getElementById('adminProduceList').innerHTML = data.map(p => `
+      <p>${p.name} – ${p.price} KES (Farmer: ${p.farmer_id?.phone || 'N/A'}) 
+        <button onclick="approvePrice('${p.id}')">Approve</button>
+      </p>
+    `).join('');
+  }
+
+  async function approvePrice(produceId) {
+    const { data, error } = await supabase.from('produce').update({ approved: true }).eq('id', produceId);
+    if(error) console.error(error);
+    else loadProduce();
+  }
+
+  loadUsers();
+  loadProduce();
+</script>
+
+</body>
+</html>

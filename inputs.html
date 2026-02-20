@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Farm Inputs Marketplace - Sokoshamba</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">Sokoshamba</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="market-prices.html">Market Prices</a>
+        <a href="auth.html">Login</a>
+    </nav>
+</header>
+
+<section class="section">
+    <h2>🚜 Farm Inputs Marketplace</h2>
+
+    <div class="card">
+        <h3>Fertilizers</h3>
+        <p>NPK 23:23:0 – Request quotation</p>
+        <button class="cta-btn" onclick="openModal('Request quotation for NPK 23:23:0')">Request Quote</button>
+    </div>
+
+    <div class="card">
+        <h3>Equipment</h3>
+        <p>Irrigation Pumps</p>
+        <button class="cta-btn" onclick="openModal('Request quotation for Irrigation Pumps')">Request Quote</button>
+    </div>
+
+    <div class="card">
+        <h3>Post Input Request</h3>
+        <textarea placeholder="Describe what you need..." style="width:100%; padding:10px;"></textarea>
+        <button class="cta-btn" style="margin-top:10px;" onclick="openModal('Input request submitted')">Submit Request</button>
+    </div>
+</section>
+
+<section class="section">
+    <h2>📸 Add Equipment & Fertilizer Images Here</h2>
+</section>
+
+<footer>© 2026 Sokoshamba</footer>
+
+<!-- Supabase JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.1.0/dist/supabase.min.js"></script>
+<script>
+const SUPABASE_URL = "https://fnknhyscommezhfgnpqx.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_Nu7xh1es0Kt9Ccv6sn2KqA_ptOJZQNm";
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // Helper to get current user
+  function getUser() {
+    return supabase.auth.getUser().then(res => res.data.user);
+  }
+</script>
+
+
+
+<script src="js/script.js"></script>
+</body>
+</html>

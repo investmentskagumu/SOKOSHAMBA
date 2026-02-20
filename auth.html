@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login / Register - Sokoshamba</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<section class="section">
+  <h2>Login or Register</h2>
+
+  <!-- TAB SELECTOR -->
+  <div>
+    <button onclick="showTab('phone')">Phone Login</button>
+    <button onclick="showTab('email')">Email Login</button>
+  </div>
+
+  <!-- PHONE LOGIN -->
+  <div id="phoneLoginTab">
+    <input type="text" id="phoneNumber" placeholder="0712345678">
+    <button id="sendCode">Send SMS Code</button>
+    <input type="text" id="verificationCode" placeholder="Enter code" style="display:none;">
+    <button id="verifyCode" style="display:none;">Verify Code</button>
+    <select id="roleSelect">
+      <option value="farmer">Farmer</option>
+      <option value="buyer">Mama Mboga</option>
+    </select>
+  </div>
+
+  <!-- EMAIL LOGIN -->
+  <div id="emailLoginTab" style="display:none;">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <select id="roleEmail">
+      <option value="farmer">Farmer</option>
+      <option value="buyer">Mama Mboga</option>
+    </select>
+    <button id="registerEmail">Register</button>
+    <button id="loginEmail">Login</button>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.1.0/dist/supabase.min.js"></script>
+<script>
+const SUPABASE_URL = "https://fnknhyscommezhfgnpqx.supabase.co";
+const SUPABASE_KEY = "sb_publishable_Nu7xh1es0Kt9Ccv6sn2KqA_ptOJZQNm";
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// SWITCH TAB
+function showTab(tab) {
+  document.getElementById('phoneLoginTab').style.display = (tab==='phone') ? 'block' : 'none';
+  document.getElementById('emailLoginTab').style.display = (tab==='email') ? 'block' : 'none';
+}
+
+// -------------------- PHONE LOGIN --------------------
+document.querySelector('#sendCode').onclick = async () => {
+  const phone = document.querySelector('#phoneNumber').value;
+  const role = document.querySelector('#roleSelect').value;
+
+  // Create user if not exists
+  const { data: existingUser } = await supabase.from('users').select('*').eq('phone', phone).single();
+  if(!existingUser) {
+    await supabase.from('users').insert([{ phone, role }]);
+  }
+
+  const { data, error } = await supabase.auth.signInWithOtp({ phone });
+  if(error) alert(error.message);
+  else {
+    alert("SMS verification code sent!");
+    document.querySelector('#verificationCode').style.display = 'block';
+    document.querySelector('#verifyCode').style.display = 'block';
+  }
+};
+
+document.querySelector('#verifyCode').onclick = async () => {
+  const token = document.querySelector('#verificationCode').value;
+  const { data, error } = await supabase.auth.verifyOtp({ token, type: 'sms' });
+  if(error) alert(error.message);
+  else {
+    alert("Logged in successfully!");
+    window.location.href = 'index.html';
+  }
+};
+
+// -------------------- EMAIL LOGIN / REGISTER --------------------
+document.querySelector('#registerEmail').onclick = async () => {
+  const email = document.querySelector('#email').value;
+  const password = document.querySelector('#password').value;
+  const role = document.querySelector('#roleEmail').value;
+
+  const { data: user, error } = await supabase.auth.signUp({ email, password });
+  if(error) alert(error.message);
+  else {
+    // Save role in users table
+    await supabase.from('users').insert([{ id: user.user.id, email, role }]);
+    alert("Registration successful! Check your email to confirm.");
+  }
+};
+
+document.querySelector('#loginEmail').onclick = async () => {
+  const email = document.querySelector('#email').value;
+  const password = document.querySelector('#password').value;
+
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if(error) alert(error.message);
+  else {
+    alert("Logged in successfully!");
+    window.location.href = 'index.html';
+  }
+};
+</script>

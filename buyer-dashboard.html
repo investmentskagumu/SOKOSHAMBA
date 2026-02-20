@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buyer Dashboard - Sokoshamba</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">Sokoshamba</div>
+    <nav>
+        <a href="market-prices.html">Market Prices</a>
+        <a href="orders.html">Orders</a>
+    </nav>
+</header>
+
+<section class="section">
+    <h2>Browse Produce</h2>
+    <div id="produceList">Loading produce...</div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.1.0/dist/supabase.min.js"></script>
+<script>
+  const SUPABASE_URL = "https://fnknhyscommezhfgnpqx.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_Nu7xh1es0Kt9Ccv6sn2KqA_ptOJZQNm";
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  async function getUser() {
+    const { data } = await supabase.auth.getUser();
+    return data.user;
+  }
+
+  async function loadProduce() {
+    const { data, error } = await supabase.from('produce').select('*, farmer_id(*)');
+    if(error) console.error(error);
+    else {
+      const html = data.map(p => `
+        <p>${p.name} – ${p.quantity}kg @ ${p.price} KES 
+          <button onclick="placeOrder('${p.id}')">Order</button>
+        </p>
+      `).join('');
+      document.getElementById('produceList').innerHTML = html || "No produce available.";
+    }
+  }
+
+  async function placeOrder(produceId) {
+    const user = await getUser();
+    const { data, error } = await supabase.from('orders').insert([
+      { produce_id: produceId, buyer_id: user.id, quantity: 1, status: 'pending' }
+    ]);
+    if(error) console.error(error);
+    else alert("Order placed!");
+  }
+
+  loadProduce();
+</script>
+
+</body>
+</html>

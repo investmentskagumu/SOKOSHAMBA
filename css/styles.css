@@ -1,0 +1,125 @@
+/* Google Font Style */
+body {
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f6f8;
+    color: #1d1d1f;
+}
+
+/* Header */
+header {
+    background: white;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 22px;
+    color: #0a66c2; /* LinkedIn blue */
+}
+
+nav a {
+    text-decoration: none;
+    margin-left: 20px;
+    color: #333;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: #0a66c2;
+}
+
+/* Hero */
+.hero {
+    padding: 80px 40px;
+    background: white;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #555;
+}
+
+.cta-btn {
+    background: #0a66c2;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.cta-btn:hover {
+    background: #004182;
+}
+
+/* Section */
+.section {
+    padding: 60px 40px;
+    background: white;
+    margin-top: 20px;
+}
+
+.section h2 {
+    margin-bottom: 20px;
+}
+
+/* Cards */
+.card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #f0f2f5;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: white;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    color: #666;
+}
+
+/* scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+button {
+    cursor: pointer;
+}
+
+select, input, textarea {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

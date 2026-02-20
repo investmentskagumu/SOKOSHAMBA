@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Produce Details - Sokoshamba</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">Sokoshamba</div>
+    <nav>
+        <a href="market-prices.html">Market Prices</a>
+        <a href="farmer-dashboard.html">Dashboard</a>
+    </nav>
+</header>
+
+<section class="section">
+    <h2>🍅 Produce Details</h2>
+    <div id="produceDetails" class="card">
+        <p>Loading details...</p>
+    </div>
+
+    <h3>Farms Selling This Produce</h3>
+    <div id="farmsList">
+        <p>Loading farms...</p>
+    </div>
+</section>
+
+<footer>© 2026 Sokoshamba</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.1.0/dist/supabase.min.js"></script>
+<script>
+  const SUPABASE_URL = "https://fnknhyscommezhfgnpqx.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_Nu7xh1es0Kt9Ccv6sn2KqA_ptOJZQNm";
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  async function loadProduceDetails(produceId) {
+    const { data, error } = await supabase
+      .from('produce')
+      .select('*, farmer_id(*)')
+      .eq('id', produceId)
+      .single();
+    
+    if(error) {
+      document.getElementById('produceDetails').innerHTML = "Error loading produce.";
+      console.error(error);
+      return;
+    }
+
+    document.getElementById('produceDetails').innerHTML = `
+      <h3>${data.name}</h3>
+      <p>Price: ${data.price} KES</p>
+      <p>Quantity: ${data.quantity}</p>
+    `;
+
+    document.getElementById('farmsList').innerHTML = `
+      <p>${data.farmer_id.name} - Contact via phone/email</p>
+    `;
+  }
+
+  // Load page with query param id, e.g., produce-details.html?id=abc123
+  const urlParams = new URLSearchParams(window.location.search);
+  const produceId = urlParams.get('id');
+  if(produceId) loadProduceDetails(produceId);
+</script>
+
+</body>
+</html>

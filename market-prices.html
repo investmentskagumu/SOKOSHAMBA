@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Market Prices - Sokoshamba</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">Sokoshamba</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="market-prices.html">Market Prices</a>
+        <a href="auth.html">Login</a>
+    </nav>
+</header>
+
+<section class="section">
+    <h2>Market Prices by Region</h2>
+
+    <div class="card">
+        <label>Region:</label>
+        <select id="regionFilter">
+            <option value="all">All</option>
+            <option value="nairobi">Nairobi</option>
+            <option value="kisumu">Kisumu</option>
+            <option value="mombasa">Mombasa</option>
+            <option value="eldoret">Eldoret</option>
+        </select>
+
+        <label>Produce:</label>
+        <select id="produceFilter">
+            <option value="all">All</option>
+            <option value="tomatoes">Tomatoes</option>
+            <option value="onions">Onions</option>
+            <option value="potatoes">Potatoes</option>
+            <option value="maize">Maize</option>
+        </select>
+    </div>
+
+    <div class="card">
+        <table>
+            <tr>
+                <th>Produce</th>
+                <th>Region</th>
+                <th>Price (KES)</th>
+                <th>Last Updated</th>
+            </tr>
+            <tr>
+                <td><a href="produce-details.html">Tomatoes</a></td>
+                <td>Nairobi</td>
+                <td>120 / kg</td>
+                <td>Today</td>
+            </tr>
+            <tr>
+                <td>Onions</td>
+                <td>Kisumu</td>
+                <td>100 / kg</td>
+                <td>Today</td>
+            </tr>
+            <tr>
+                <td>Potatoes</td>
+                <td>Eldoret</td>
+                <td>80 / kg</td>
+                <td>Yesterday</td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<footer>
+    © 2026 Sokoshamba
+</footer>
+
+<!-- Supabase JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.1.0/dist/supabase.min.js"></script>
+<script>
+const SUPABASE_URL = "https://fnknhyscommezhfgnpqx.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_Nu7xh1es0Kt9Ccv6sn2KqA_ptOJZQNm";
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // Helper to get current user
+  function getUser() {
+    return supabase.auth.getUser().then(res => res.data.user);
+  }
+</script>
+
+
+<script src="js/script.js"></script>
+</body>
+</html>
