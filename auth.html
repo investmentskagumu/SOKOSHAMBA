@@ -1,50 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login / Register - Sokoshamba</title>
-    <link rel="stylesheet" href="css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login / Register - Sokoshamba</title>
+<link rel="stylesheet" href="css/styles.css">
+<style>
+/* Quick inline improvements */
+.section { max-width: 500px; margin: 2rem auto; padding: 1rem; }
+button { margin-top: 0.5rem; }
+input, select { width: 100%; margin: 0.3rem 0; padding: 0.5rem; }
+.tab-buttons button { margin-right: 0.5rem; }
+.info-text { font-size: 0.9rem; color: #555; margin-top: 0.5rem; }
+.hero { text-align: center; margin-top: 2rem; }
+</style>
 </head>
 <body>
 
+<header>
+    <div class="logo">🌾 Sokoshamba</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="market-prices.html">Market Prices</a>
+        <a href="auth.html">Login</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Welcome to Sokoshamba</h1>
+    <p>Login or register to access live market prices, post produce, and connect with buyers across Kenya.</p>
+</section>
+
 <section class="section">
-  <h2>Login or Register</h2>
+<h2>Login or Register</h2>
 
-  <!-- TAB SELECTOR -->
-  <div>
-    <button onclick="showTab('phone')">Phone Login</button>
-    <button onclick="showTab('email')">Email Login</button>
-  </div>
+<!-- TAB SELECTOR -->
+<div class="tab-buttons">
+    <button onclick="showTab('phone')">📱 Phone Login</button>
+    <button onclick="showTab('email')">📧 Email Login</button>
+</div>
 
-  <!-- PHONE LOGIN -->
-  <div id="phoneLoginTab">
+<!-- PHONE LOGIN -->
+<div id="phoneLoginTab">
+    <p class="info-text">Enter your phone number to receive a one-time SMS code.</p>
     <input type="text" id="phoneNumber" placeholder="0712345678">
-    <button id="sendCode">Send SMS Code</button>
-    <input type="text" id="verificationCode" placeholder="Enter code" style="display:none;">
-    <button id="verifyCode" style="display:none;">Verify Code</button>
     <select id="roleSelect">
       <option value="farmer">Farmer</option>
-      <option value="buyer">Mama Mboga</option>
+      <option value="buyer">Mama Mboga / Buyer</option>
     </select>
-  </div>
+    <button id="sendCode">Send SMS Code</button>
 
-  <!-- EMAIL LOGIN -->
-  <div id="emailLoginTab" style="display:none;">
+    <input type="text" id="verificationCode" placeholder="Enter code" style="display:none;">
+    <button id="verifyCode" style="display:none;">Verify Code</button>
+</div>
+
+<!-- EMAIL LOGIN -->
+<div id="emailLoginTab" style="display:none;">
+    <p class="info-text">Use your email and password to login or register.</p>
     <input type="email" id="email" placeholder="Email">
     <input type="password" id="password" placeholder="Password">
     <select id="roleEmail">
       <option value="farmer">Farmer</option>
-      <option value="buyer">Mama Mboga</option>
+      <option value="buyer">Mama Mboga / Buyer</option>
     </select>
     <button id="registerEmail">Register</button>
     <button id="loginEmail">Login</button>
-  </div>
+</div>
+
+<p class="info-text">By signing up, you agree to Sokoshamba's terms of use. Your data helps us provide better market insights.</p>
 </section>
 
+<footer style="text-align:center; margin-top:2rem;">
+<p>© 2026 Sokoshamba | Built by Kagumu Investments</p>
+</footer>
+
+<!-- Supabase JS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.1.0/dist/supabase.min.js"></script>
 <script>
 const SUPABASE_URL = "https://fnknhyscommezhfgnpqx.supabase.co";
 const SUPABASE_KEY = "sb_publishable_Nu7xh1es0Kt9Ccv6sn2KqA_ptOJZQNm";
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // SWITCH TAB
 function showTab(tab) {
@@ -54,16 +89,18 @@ function showTab(tab) {
 
 // -------------------- PHONE LOGIN --------------------
 document.querySelector('#sendCode').onclick = async () => {
-  const phone = document.querySelector('#phoneNumber').value;
+  const phone = document.querySelector('#phoneNumber').value.trim();
   const role = document.querySelector('#roleSelect').value;
 
+  if(!phone) { alert("Enter your phone number"); return; }
+
   // Create user if not exists
-  const { data: existingUser } = await supabase.from('users').select('*').eq('phone', phone).single();
+  const { data: existingUser } = await supabaseClient.from('users').select('*').eq('phone', phone).single();
   if(!existingUser) {
-    await supabase.from('users').insert([{ phone, role }]);
+    await supabaseClient.from('users').insert([{ phone, role }]);
   }
 
-  const { data, error } = await supabase.auth.signInWithOtp({ phone });
+  const { data, error } = await supabaseClient.auth.signInWithOtp({ phone });
   if(error) alert(error.message);
   else {
     alert("SMS verification code sent!");
@@ -73,8 +110,10 @@ document.querySelector('#sendCode').onclick = async () => {
 };
 
 document.querySelector('#verifyCode').onclick = async () => {
-  const token = document.querySelector('#verificationCode').value;
-  const { data, error } = await supabase.auth.verifyOtp({ token, type: 'sms' });
+  const token = document.querySelector('#verificationCode').value.trim();
+  if(!token) { alert("Enter the verification code"); return; }
+
+  const { data, error } = await supabaseClient.auth.verifyOtp({ token, type: 'sms' });
   if(error) alert(error.message);
   else {
     alert("Logged in successfully!");
@@ -84,24 +123,28 @@ document.querySelector('#verifyCode').onclick = async () => {
 
 // -------------------- EMAIL LOGIN / REGISTER --------------------
 document.querySelector('#registerEmail').onclick = async () => {
-  const email = document.querySelector('#email').value;
-  const password = document.querySelector('#password').value;
+  const email = document.querySelector('#email').value.trim();
+  const password = document.querySelector('#password').value.trim();
   const role = document.querySelector('#roleEmail').value;
 
-  const { data: user, error } = await supabase.auth.signUp({ email, password });
+  if(!email || !password) { alert("Enter email and password"); return; }
+
+  const { data: user, error } = await supabaseClient.auth.signUp({ email, password });
   if(error) alert(error.message);
   else {
     // Save role in users table
-    await supabase.from('users').insert([{ id: user.user.id, email, role }]);
+    await supabaseClient.from('users').insert([{ id: user.user.id, email, role }]);
     alert("Registration successful! Check your email to confirm.");
   }
 };
 
 document.querySelector('#loginEmail').onclick = async () => {
-  const email = document.querySelector('#email').value;
-  const password = document.querySelector('#password').value;
+  const email = document.querySelector('#email').value.trim();
+  const password = document.querySelector('#password').value.trim();
 
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if(!email || !password) { alert("Enter email and password"); return; }
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
   if(error) alert(error.message);
   else {
     alert("Logged in successfully!");
@@ -109,3 +152,6 @@ document.querySelector('#loginEmail').onclick = async () => {
   }
 };
 </script>
+
+</body>
+</html>
