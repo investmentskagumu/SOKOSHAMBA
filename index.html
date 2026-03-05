@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Sokoshamba - Real Time Farm Prices</title>
-    <link rel="stylesheet" href="css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sokoshamba - Real Time Farm Prices</title>
+<link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
 
 <header>
-    <div class="logo">Sokoshamba</div>
+    <div class="logo">🌾 Sokoshamba</div>
+
     <nav>
         <a href="index.html">Home</a>
         <a href="market-prices.html">Market Prices</a>
@@ -15,75 +19,243 @@
     </nav>
 </header>
 
+
+<!-- HERO SECTION -->
+
 <section class="hero">
+
     <h1>Real-Time Farm Produce Prices Across Kenya</h1>
-    <p>Connecting Farmers & Buyers with Transparent Market Data</p>
-    <button class="cta-btn">View Market Prices</button>
+
+    <p>
+        Sokoshamba helps farmers, traders, and consumers access 
+        transparent agricultural market prices across Kenya. 
+        Make better selling and buying decisions using live market data.
+    </p>
+
+    <button class="cta-btn" onclick="location.href='market-prices.html'">
+        View Market Prices
+    </button>
+
 </section>
+
+
+
+<!-- ABOUT PLATFORM -->
 
 <section class="section">
-    <h2>Search Prices by Region</h2>
-    <div class="card">
-        <select id="regionFilter">
-            <option value="all">Select Region</option>
-            <option value="nairobi">Nairobi</option>
-            <option value="kisumu">Kisumu</option>
-            <option value="mombasa">Mombasa</option>
-            <option value="eldoret">Eldoret</option>
-        </select>
 
-        <select id="produceFilter">
-            <option value="all">Select Produce</option>
-            <option value="tomatoes">Tomatoes</option>
-            <option value="onions">Onions</option>
-            <option value="potatoes">Potatoes</option>
-            <option value="maize">Maize</option>
-        </select>
+<h2>Why Sokoshamba?</h2>
 
-        <button class="cta-btn">Search</button>
-    </div>
+<div class="card">
+<h3>📉 End Price Exploitation</h3>
+<p>
+Many farmers sell produce without knowing the real market price. 
+Sokoshamba provides transparent pricing from major Kenyan markets 
+so farmers can negotiate better deals.
+</p>
+</div>
+
+<div class="card">
+<h3>📍 Regional Market Visibility</h3>
+<p>
+Compare produce prices between Nairobi, Kisumu, Mombasa, Eldoret and more. 
+Understand demand patterns and choose where to sell your produce.
+</p>
+</div>
+
+<div class="card">
+<h3>📊 Smart Farming Decisions</h3>
+<p>
+Our market data helps farmers identify profitable crops, seasonal demand, 
+and market trends before planting.
+</p>
+</div>
+
 </section>
+
+
+
+<!-- SEARCH PRICES -->
 
 <section class="section">
-    <h2>How Sokoshamba Works</h2>
-    <div class="card">
-        <h3>🌽 Farmers Post Produce</h3>
-        <p>Farmers list available produce and compare prices across regions.</p>
-    </div>
-    <div class="card">
-        <h3>🛒 Buyers Compare Prices</h3>
-        <p>Mama mboga view regional prices and contact farmers directly.</p>
-    </div>
-    <div class="card">
-        <h3>📊 Data-Driven Insights</h3>
-        <p>Demand charts help farmers plant smarter and sell better.</p>
-    </div>
+
+<h2>Search Prices by Region</h2>
+
+<div class="card">
+
+<select id="regionFilter">
+<option value="all">Select Region</option>
+<option value="nairobi">Nairobi</option>
+<option value="kisumu">Kisumu</option>
+<option value="mombasa">Mombasa</option>
+<option value="eldoret">Eldoret</option>
+</select>
+
+<select id="produceFilter">
+<option value="all">Select Produce</option>
+<option value="tomatoes">Tomatoes</option>
+<option value="onions">Onions</option>
+<option value="potatoes">Potatoes</option>
+<option value="maize">Maize</option>
+<option value="cabbage">Cabbage</option>
+<option value="beans">Beans</option>
+</select>
+
+<button class="cta-btn">Search</button>
+
+</div>
+
 </section>
 
+
+
+<!-- HOW IT WORKS -->
+
 <section class="section">
-    <h2>📸 Add Hero / Market Images Here</h2>
-    <p>(Place market, farm, or produce photos inside /images folder)</p>
+
+<h2>How Sokoshamba Works</h2>
+
+<div class="card">
+<h3>🌽 Farmers Post Produce</h3>
+<p>
+Farmers can list available produce, check market demand, 
+and decide where to sell based on current prices.
+</p>
+</div>
+
+<div class="card">
+<h3>🛒 Buyers Compare Prices</h3>
+<p>
+Traders, restaurants, and mama mboga vendors can compare 
+regional prices and source produce directly from farmers.
+</p>
+</div>
+
+<div class="card">
+<h3>📊 Data Driven Insights</h3>
+<p>
+Visual charts show supply trends and price fluctuations 
+to help farmers maximize profits.
+</p>
+</div>
+
 </section>
+
+
+
+<!-- MARKET STATISTICS -->
+
+<section class="section">
+
+<h2>Kenya Agricultural Market Insights</h2>
+
+<div class="card">
+<h3>🥔 70% of Kenyan Farmers</h3>
+<p>
+Sell produce without real-time market price knowledge.
+</p>
+</div>
+
+<div class="card">
+<h3>📈 Price Differences up to 40%</h3>
+<p>
+The same produce may sell at drastically different prices 
+in different regions.
+</p>
+</div>
+
+<div class="card">
+<h3>🌍 Sokoshamba Goal</h3>
+<p>
+To create a national agricultural pricing network connecting 
+farmers and buyers with transparent data.
+</p>
+</div>
+
+</section>
+
+
+
+<!-- IMAGE SECTION -->
+
+<section class="section">
+
+<h2>Kenyan Markets & Farms</h2>
+
+<div class="card">
+<img src="images/farm1.jpg" alt="Kenyan Farm Produce" width="100%">
+<p>Fresh produce harvested by local farmers.</p>
+</div>
+
+<div class="card">
+<img src="images/market1.jpg" alt="Kenyan Market" width="100%">
+<p>Busy open-air markets where produce is traded daily.</p>
+</div>
+
+<div class="card">
+<img src="images/farm2.jpg" alt="Vegetable Farm" width="100%">
+<p>Vegetable farms supplying urban markets.</p>
+</div>
+
+</section>
+
+
+
+<!-- CALL TO ACTION -->
+
+<section class="section">
+
+<h2>Join the Sokoshamba Network</h2>
+
+<p>
+Whether you are a farmer, trader, or consumer, Sokoshamba 
+helps you access reliable agricultural market data.
+</p>
+
+<button class="cta-btn" onclick="location.href='auth.html'">
+Create Account
+</button>
+
+</section>
+
+
 
 <footer>
-    © 2026 Sokoshamba | Empowering Kenyan Farmers<br>
-kagumuinvestments 
+
+<p>
+© 2026 Sokoshamba | Empowering Kenyan Farmers
+</p>
+
+<p>
+Built by Kagumu Investments
+</p>
+
 </footer>
 
-<!-- Supabase JS -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.1.0/dist/supabase.min.js"></script>
-<script>
-const SUPABASE_URL = "https://fnknhyscommezhfgnpqx.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_Nu7xh1es0Kt9Ccv6sn2KqA_ptOJZQNm";
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  // Helper to get current user
-  function getUser() {
-    return supabase.auth.getUser().then(res => res.data.user);
-  }
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.1.0/dist/supabase.min.js"></script>
+
+<script>
+
+const SUPABASE_URL = "https://fnknhyscommezhfgnpqx.supabase.co";
+const SUPABASE_KEY = "sb_publishable_Nu7xh1es0Kt9Ccv6sn2KqA_ptOJZQNm";
+
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+// Helper to get current user
+async function getUser() {
+    const { data } = await supabaseClient.auth.getUser();
+    return data.user;
+}
+
 </script>
 
 
 <script src="js/script.js"></script>
+
 </body>
 </html>
