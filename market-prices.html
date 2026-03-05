@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Market Prices - Sokoshamba</title>
-    <link rel="stylesheet" href="css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Prices - Sokoshamba</title>
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
 <header>
-    <div class="logo">Sokoshamba</div>
+    <div class="logo">🌾 Sokoshamba</div>
     <nav>
         <a href="index.html">Home</a>
         <a href="market-prices.html">Market Prices</a>
@@ -15,76 +17,153 @@
     </nav>
 </header>
 
+<!-- PAGE HERO -->
+
+<section class="hero">
+    <h1>Live Market Prices Across Kenya</h1>
+    <p>Compare produce prices by region, stay informed, and maximize your profits.</p>
+</section>
+
+<!-- FILTERS -->
+
 <section class="section">
-    <h2>Market Prices by Region</h2>
+<h2>Filter Market Prices</h2>
 
-    <div class="card">
-        <label>Region:</label>
-        <select id="regionFilter">
-            <option value="all">All</option>
-            <option value="nairobi">Nairobi</option>
-            <option value="kisumu">Kisumu</option>
-            <option value="mombasa">Mombasa</option>
-            <option value="eldoret">Eldoret</option>
-        </select>
+<div class="card filters">
+    <label for="regionFilter">Region:</label>
+    <select id="regionFilter">
+        <option value="all">All</option>
+        <option value="nairobi">Nairobi</option>
+        <option value="kisumu">Kisumu</option>
+        <option value="mombasa">Mombasa</option>
+        <option value="eldoret">Eldoret</option>
+    </select>
 
-        <label>Produce:</label>
-        <select id="produceFilter">
-            <option value="all">All</option>
-            <option value="tomatoes">Tomatoes</option>
-            <option value="onions">Onions</option>
-            <option value="potatoes">Potatoes</option>
-            <option value="maize">Maize</option>
-        </select>
-    </div>
+    <label for="produceFilter">Produce:</label>
+    <select id="produceFilter">
+        <option value="all">All</option>
+        <option value="tomatoes">Tomatoes</option>
+        <option value="onions">Onions</option>
+        <option value="potatoes">Potatoes</option>
+        <option value="maize">Maize</option>
+        <option value="cabbage">Cabbage</option>
+        <option value="beans">Beans</option>
+    </select>
 
-    <div class="card">
-        <table>
+    <button class="cta-btn" id="filterBtn">Search</button>
+</div>
+</section>
+
+<!-- MARKET TABLE -->
+
+<section class="section">
+<h2>Current Market Prices</h2>
+
+<div class="card">
+    <table id="marketTable">
+        <thead>
             <tr>
                 <th>Produce</th>
                 <th>Region</th>
-                <th>Price (KES)</th>
+                <th>Price (KES/kg)</th>
                 <th>Last Updated</th>
             </tr>
+        </thead>
+        <tbody>
             <tr>
                 <td><a href="produce-details.html">Tomatoes</a></td>
                 <td>Nairobi</td>
-                <td>120 / kg</td>
+                <td>120</td>
                 <td>Today</td>
             </tr>
             <tr>
                 <td>Onions</td>
                 <td>Kisumu</td>
-                <td>100 / kg</td>
+                <td>100</td>
                 <td>Today</td>
             </tr>
             <tr>
                 <td>Potatoes</td>
                 <td>Eldoret</td>
-                <td>80 / kg</td>
+                <td>80</td>
                 <td>Yesterday</td>
             </tr>
-        </table>
-    </div>
+            <tr>
+                <td>Maize</td>
+                <td>Mombasa</td>
+                <td>70</td>
+                <td>Yesterday</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p class="info-text">Prices are updated daily. Farmers and traders can list produce to ensure the market reflects real-time data.</p>
+
+</section>
+
+<!-- MARKET INSIGHTS -->
+
+<section class="section">
+<h2>Market Insights</h2>
+
+<div class="card">
+<h3>🌽 Top Trending Produce</h3>
+<p>Tomatoes and onions have seen the highest price fluctuations in Nairobi over the past week.</p>
+</div>
+
+<div class="card">
+<h3>📈 Regional Price Gaps</h3>
+<p>Potatoes in Eldoret are 25% cheaper than in Nairobi, highlighting regional opportunities for traders.</p>
+</div>
+
+<div class="card">
+<h3>💡 Farmer Tips</h3>
+<p>Check demand patterns before harvesting. Use Sokoshamba data to maximize your profits.</p>
+</div>
+</section>
+
+<!-- CTA -->
+
+<section class="section">
+<h2>Join Sokoshamba</h2>
+<p>Sign up today to post your produce, access full market data, and connect with buyers across Kenya.</p>
+<button class="cta-btn" onclick="location.href='auth.html'">Create Account</button>
 </section>
 
 <footer>
-    © 2026 Sokoshamba
+<p>© 2026 Sokoshamba | Empowering Kenyan Farmers</p>
+<p>Built by Kagumu Investments</p>
 </footer>
 
 <!-- Supabase JS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.1.0/dist/supabase.min.js"></script>
 <script>
 const SUPABASE_URL = "https://fnknhyscommezhfgnpqx.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_Nu7xh1es0Kt9Ccv6sn2KqA_ptOJZQNm";
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_KEY = "sb_publishable_Nu7xh1es0Kt9Ccv6sn2KqA_ptOJZQNm";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  // Helper to get current user
-  function getUser() {
-    return supabase.auth.getUser().then(res => res.data.user);
-  }
+// Helper to get current user
+async function getUser() {
+    const { data } = await supabaseClient.auth.getUser();
+    return data.user;
+}
+
+// Filter table dynamically (basic JS)
+document.getElementById("filterBtn").addEventListener("click", function() {
+    const region = document.getElementById("regionFilter").value.toLowerCase();
+    const produce = document.getElementById("produceFilter").value.toLowerCase();
+
+    const table = document.getElementById("marketTable").getElementsByTagName("tbody")[0];
+    for (let row of table.rows) {
+        const rowRegion = row.cells[1].textContent.toLowerCase();
+        const rowProduce = row.cells[0].textContent.toLowerCase();
+        row.style.display = 
+            (region === "all" || rowRegion === region) && 
+            (produce === "all" || rowProduce === produce) ? "" : "none";
+    }
+});
 </script>
-
 
 <script src="js/script.js"></script>
 </body>
